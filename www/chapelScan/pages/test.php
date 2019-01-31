@@ -167,7 +167,7 @@ $results = mysqli_query($connect,"SELECT * FROM students");
                                         if ($row['PHOTO'] == null) {
                                             echo "Photo Not Available";
                                         } else {?>
-                                        <img src="data:image/png;base64,<?php
+                                        <img src="data:image/gif;base64,<?php
                                             echo $row['PHOTO'];?><?php
                                         } ?>"></td>
                                 </tr>

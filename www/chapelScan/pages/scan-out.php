@@ -165,37 +165,33 @@ $results = mysqli_query($connect,"SELECT * FROM scans");
                                 <thead>
                                 <tr>
                                     <th>ID Number</th>
-                                    <th>Username</th>
                                     <th>Full Name</th>
-                                    <th>Time Out</th>
-                                    <th>Credit Type</th>
+                                    <th>Image</th>
+                                    <th>Time out</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <?php while($row = mysqli_fetch_array($results)) {?>
                                     <tr>
                                         <td><?php echo $row['id']; ?></td>
-                                        <td><?php echo $row['userName']; ?></td>
                                         <td><?php
-                                            $firstName = $row['firstName'];
-                                            $lastName = $row['lastName'];
+                                            $firstName = $row['fName'];
+                                            $lastName = $row['lName'];
                                             echo "$firstName $lastName"; ?></td>
                                         <td><?php
-                                            if ($row['scanOut'] == null) {
-                                                echo "Did Not Scan Out";
-                                            } else {
-                                                echo $row['scanOut'];
-                                            } ?></td>
-                                        <td><?php switch ($row['creditType']) {
-                                                case 'F':
-                                                    echo "Full";
-                                                    break;
-                                                case 'L':
-                                                    echo "Late";
-                                                    break;
-                                                case 'A':
-                                                    echo "Alternative";
-                                                    break;
+                                            if ($row['PHOTO'] == null) {
+                                                echo "Photo Not Available";
+                                            } else {?>
+                                            <img src="data:image/png;base64,<?php
+                                            echo $row['PHOTO'];?><?php
+                                            } ?>">
+                                        </td>
+                                        <td><?php
+                                            if ($row['UPDATED_AT'] == null) {
+                                                echo "Did not scan out";
+                                            }
+                                            else {
+                                                echo $row['UPDATED_AT'];
                                             } ?></td>
                                     </tr>
                                 <?php } ?>

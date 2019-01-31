@@ -16,7 +16,7 @@ include_once $_SERVER["DOCUMENT_ROOT"]."/chapelScan/login/config.php";
 
 //$connect = mysqli_connect('localhost','root','','login');
 
-$results = mysqli_query($connect,"SELECT * FROM scans");
+$results = mysqli_query($connect, "SELECT * FROM scans ORDER BY CREATED_AT ASC");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -182,8 +182,9 @@ $results = mysqli_query($connect,"SELECT * FROM scans");
                                         if ($row['PHOTO'] == null) {
                                             echo "Photo Not Available";
                                         } else {?>
-                                        <img src="data:image/png;base64,<?php
-                                        echo $row['PHOTO'];?><?php
+                                            <img src="../function/get_pic.php?id=?">
+<!--                                            <img src="data:image/png;base64,--><?php
+//                                            echo $row['PHOTO'];
                                         } ?>">
                                     </td>
                                     <td><?php echo $row['CREATED_AT']; ?></td>

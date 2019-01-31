@@ -6,7 +6,9 @@ create table scans
   lName      varchar(255)                       null,
   CREATED_AT datetime default CURRENT_TIMESTAMP not null,
   UPDATED_AT datetime                           null,
-  PHOTO      longtext                           null
+  PHOTO      longtext                           null,
+  constraint current_scans_id_uindex
+    unique (id)
 );
 
 -- auto-generated definition

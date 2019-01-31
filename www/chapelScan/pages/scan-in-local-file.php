@@ -163,7 +163,17 @@ $results = mysqli_query($connect,"SELECT * FROM scans");
                 <div class="panel panel-default">
                     <!-- /.panel-heading -->
                     <div class="panel-body">
-                        <?php $row = mysqli_fetch_array($results) ?>
+                        <?php $row = mysqli_fetch_array($results);
+                            if (mysqli_num_rows($results) == 0) {
+                                //do nothing
+                            } else { ?>
+                                <h1><?php
+                                    $firstName = $row['fName'];
+                                    $lastName = $row['lName'];
+                                    echo "$firstName $lastName"; ?></h1>
+                                <img src="data:image/png;base64,<?php echo $row['PHOTO'];?>"> <?php
+                            }
+                        ?>
                         <h1><?php
                             $firstName = $row['fName'];
                             $lastName = $row['lName'];
