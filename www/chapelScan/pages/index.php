@@ -123,13 +123,7 @@ $results = mysqli_query($connect,"SELECT * FROM scans");
                                     <a href="scan-in.php"><i class="fa fa-bar-chart-o fa-fw"></i> Scan In</a>
                                 </li>
                                 <li>
-                                    <a href="scan-in-local-file.php"><i class="fa fa-bar-chart-o fa-fw"></i> Scan In (Local)</a>
-                                </li>
-                                <li>
                                     <a href="scan-out.php"><i class="fa fa-bar-chart-o fa-fw"></i> Scan Out</a>
-                                </li>
-                                <li>
-                                    <a href="scan-out-local-file.php"><i class="fa fa-bar-chart-o fa-fw"></i> Scan Out (Local)</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->

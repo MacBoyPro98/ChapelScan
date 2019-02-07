@@ -13,7 +13,7 @@ include_once $_SERVER["DOCUMENT_ROOT"]."/chapelScan/login/config.php";
 
 //$connect = mysqli_connect('localhost','root','','login');
 
-$results = mysqli_query($connect,"SELECT * FROM scans");
+$results = mysqli_query($connect,"SELECT * FROM scans WHERE UPDATED_AT != 'NULL' ORDER BY CREATED_AT DESC LIMIT 1");
 ?>
 <!DOCTYPE html>
 <html lang="en">
