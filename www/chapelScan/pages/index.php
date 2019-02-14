@@ -152,19 +152,27 @@ $results = mysqli_query($connect,"SELECT * FROM scans");
                                     <tr>
                                         <th>ID Number</th>
                                         <th>Full Name</th>
+                                        <th>Photo</th>
                                         <th>Time In</th>
                                         <th>Time Out</th>
-										<th>Credit Type</th>
+<!--										<th>Credit Type</th>-->
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php while($row = mysqli_fetch_array($results)) {?>
                                     <tr>
+                                        <?php while($row = mysqli_fetch_array($results)) {?>
                                         <td><?php echo $row['id']; ?></td>
                                         <td><?php
                                                 $firstName = $row['fName'];
                                                 $lastName = $row['lName'];
                                                 echo "$firstName $lastName"; ?></td>
+                                        <td><?php
+                                            if ($row['PHOTO'] == null) {
+                                                echo "Photo Not Available";
+                                            } else { ?>
+                                                <img src="data:image/png;base64,<?php
+                                                echo $row['PHOTO'];?>"> <?php
+                                            } ?>
                                         <td><?php echo $row['CREATED_AT']; ?></td>
                                         <td><?php
                                             if ($row['UPDATED_AT'] == null) {

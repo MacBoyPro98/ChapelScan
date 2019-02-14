@@ -33,5 +33,5 @@ function append($filePath) {
 }
 
 //run
-mysqli_query($connect, "INSERT INTO scans (id, fName, lName, PHOTO) SELECT CARD_ID, fName, lName, PHOTO FROM students where CARD_ID ='$_POST[id]'");
+mysqli_query($connect, "INSERT INTO current_scans (id, fName, lName, PHOTO) SELECT CARD_ID, fName, lName, PHOTO FROM students where CARD_ID ='$_POST[id]'");
 append($filePath);

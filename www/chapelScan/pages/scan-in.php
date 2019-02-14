@@ -16,7 +16,7 @@ include_once $_SERVER["DOCUMENT_ROOT"]."/chapelScan/login/config.php";
 
 //$connect = mysqli_connect('localhost','root','','login');
 
-$results = mysqli_query($connect, "SELECT * FROM scans ORDER BY CREATED_AT DESC LIMIT 1");
+$results = mysqli_query($connect, "SELECT * FROM current_scans ORDER BY CREATED_AT DESC LIMIT 1");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -164,7 +164,7 @@ $results = mysqli_query($connect, "SELECT * FROM scans ORDER BY CREATED_AT DESC 
                         <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                             <thead>
                             <tr>
-                                <th>ID Number</th>
+<!--                                <th>ID Number</th>-->
                                 <th>Full Name</th>
                                 <th>Image</th>
                                 <th>Time In</th>
@@ -173,7 +173,7 @@ $results = mysqli_query($connect, "SELECT * FROM scans ORDER BY CREATED_AT DESC 
                             <tbody>
                             <?php while($row = mysqli_fetch_array($results)) {?>
                                 <tr>
-                                    <td><?php echo $row['id']; ?></td>
+<!--                                    <td>--><?php //echo $row['id']; ?><!--</td>-->
                                     <td><?php
                                         $firstName = $row['fName'];
                                         $lastName = $row['lName'];

@@ -42,7 +42,7 @@ function append($filePath) {
 //run
 
 //update the scanOut timestamp
-mysqli_query($connect, "UPDATE scans SET UPDATED_AT = CURRENT_TIMESTAMP WHERE id='$_POST[id]'");
+mysqli_query($connect, "UPDATE current_scans SET UPDATED_AT = CURRENT_TIMESTAMP WHERE id='$_POST[id]'");
 append($filePath);
 
 //update the total count in users table
