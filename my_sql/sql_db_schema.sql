@@ -1,9 +1,9 @@
 -- auto-generated definition
-create table scans
+create table current_scans
 (
   id         int                                not null,
-  fName      varchar(255)                       null,
-  lName      varchar(255)                       null,
+  fName      varchar(255)                       not null,
+  lName      varchar(255)                       not null,
   CREATED_AT datetime default CURRENT_TIMESTAMP not null,
   UPDATED_AT datetime                           null,
   PHOTO      longtext                           null,
@@ -24,3 +24,13 @@ create table students
   constraint students_STU_ID_uindex
     unique (STU_ID)
 );
+
+create table scans
+(
+  id         int                                not null,
+  fName      varchar(255)                       not null,
+  lName      varchar(255)                       not null,
+  CREATED_AT datetime default CURRENT_TIMESTAMP not null,
+  UPDATED_AT datetime                           null,
+  PHOTO      longtext                           null
+)
