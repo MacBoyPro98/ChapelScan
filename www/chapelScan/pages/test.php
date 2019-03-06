@@ -10,6 +10,7 @@ session_start();
 
 // First connect to the database via your connection insert file
 include_once $_SERVER["DOCUMENT_ROOT"]."/chapelScan/login/config.php";
+include_once $_SERVER["DOCUMENT_ROOT"]."/chapelScan/function/fetch_array.php";
 
 $results = mysqli_query($connect,"SELECT * FROM students");
 ?>
@@ -147,33 +148,11 @@ $results = mysqli_query($connect,"SELECT * FROM students");
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
-                            <thead>
-                            <tr>
-                                <th>ID Number</th>
-                                <th>Full Name</th>
-                                <th>Photo</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php while($row = mysqli_fetch_array($results)) {?>
-                                <tr>
-                                    <td><?php echo $row['STU_ID']; ?></td>
-                                    <td><?php
-                                        $firstName = $row['fName'];
-                                        $lastName = $row['lName'];
-                                        echo "$firstName $lastName"; ?></td>
-                                    <td><?php
-                                        if ($row['PHOTO'] == null) {
-                                            echo "Photo Not Available";
-                                        } else {?>
-                                        <img src="data:image/gif;base64,<?php
-                                            echo $row['PHOTO'];?><?php
-                                        } ?>"></td>
-                                </tr>
-                            <?php } ?>
-                            </tbody>
-                        </table>
+                        <p>
+                            <?php
+                                fetch_array_nathan($_SERVER["DOCUMENT_ROOT"]."/chapelScan/extra/testCSV.csv")
+                            ?>
+                        </p>
                         <!-- /.table-responsive -->
                     </div>
                     <!-- /.panel-body -->

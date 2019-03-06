@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: nteeter
- * Date: 9/20/2017
- * Time: 5:25 PM
- */
-
 // Initialize the session
 session_start();
 
@@ -16,11 +9,9 @@ session_start();
 //}
 
 // First connect to the database via your connection insert file
-include_once $_SERVER["DOCUMENT_ROOT"]."/login/config.php";
+include_once $_SERVER["DOCUMENT_ROOT"]."/chapelScan/login/config.php";
 
-//$connect = mysqli_connect('localhost','root','','login');
-
-$results = mysqli_query($connect,"SELECT * FROM users");
+$results = mysqli_query($connect,"SELECT * FROM students");
 ?>
 
 <!DOCTYPE html>
@@ -159,23 +150,36 @@ $results = mysqli_query($connect,"SELECT * FROM users");
                         <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                             <thead>
                             <tr>
-                                <th>ID Number</th>
-                                <th>Username</th>
                                 <th>Full Name</th>
-                                <th>Total Credits</th>
+                                <th>Photo</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <?php while($row = mysqli_fetch_array($results)) {?>
-                                <tr>
-                                    <td><?php echo $row['id']; ?></td>
-                                    <td><?php echo $row['userName']; ?></td>
-                                    <td><?php
-                                        $firstName = $row['firstName'];
-                                        $lastName = $row['lastName'];
-                                        echo "$firstName $lastName"; ?></td>
-                                    <td><?php echo $row['total']; ?></td>
-                                </tr>
+                            <tr>
+                                <?php while($row = mysqli_fetch_array($results)) {?>
+                                <td><?php
+                                    $firstName = $row['fName'];
+                                    $lastName = $row['lName'];
+                                    echo "$firstName $lastName"; ?></td>
+                                <td><?php
+                                    if ($row['PHOTO'] == null) {
+                                        echo "Photo Not Available";
+                                    } else { ?>
+                                        <img src="data:image/png;base64,<?php
+                                        echo $row['PHOTO'];?>" style="width:240px;height:320px;" alt="<?php echo $row['id'] ?>"> <?php
+                                    } ?></td>
+                                <!--                                        <td>--><?php //switch ($row['creditType']) {
+                                //                                                case 'F':
+                                //                                                    echo "Full";
+                                //                                                    break;
+                                //                                                case 'L':
+                                //                                                    echo "Late";
+                                //                                                    break;
+                                //                                                case 'A':
+                                //                                                    echo "Alternative";
+                                //                                                    break;
+                                //                                            } ?><!--</td>-->
+                            </tr>
                             <?php } ?>
                             </tbody>
                         </table>
