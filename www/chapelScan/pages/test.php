@@ -161,37 +161,27 @@ $results = mysqli_query($connect,"SELECT * FROM students");
                                     <tr>
                                         <?php 
 											$filePath = "C:/wamp64/extra/testCSV_modified.csv";
-											
-											$row = 1;
-											if (($file = fopen($filePath, "r")) !== FALSE) {
-												while (($data = fgetcsv($file, 1000, ",")) !== FALSE) {
-													echo "<tr>";
-													$num = count($data);
-													$row++;
-													for ($c=0; $c < $num; $c++)  {
-														echo "<td>" . $data[$c] . "</td>";
-													}
-													echo "</tr>";
-												}
-												fclose($file);
-											}
-										?>
-										<?php 
+										
 											$file = file_get_contents($filePath);
 											$rows = explode("\n", $file);
 											array_shift($rows);
 											
 											foreach($rows as $row => $data) {
 												//get row data
-												$row_data = explode('^', $data);
+												$row_data = explode(',', $data);
 
-												$info[$row]['id']           = $row_data[0];
-												$info[$row]['name']         = $row_data[1];
-												$info[$row]['description']  = $row_data[2];
-												$info[$row]['images']       = $row_data[3];
+												$info[$row]['fName']           = $row_data[0];
+												$info[$row]['lName']         = $row_data[1];
+												$info[$row]['CARD_ID']  = $row_data[2];
+												$info[$row]['STU_ID']       = $row_data[3];
+												$info[$row]['photo']       = $row_data[4];
 												
 												echo "<tr>";
-												echo "<td>" . rowData[0] . rowData[1];
+												echo "<td>" . $info[$row]['fName'] . " " . $info[$row]['lName'] . "</td>";
+												echo "<td>" . $info[$row]['CARD_ID'] . "</td>";
+												echo "<td>" . $info[$row]['STU_ID'] . "</td>";
+												echo "<td><img src=\"" . $info[$row]['photo'] . "\"></td>";
+												echo "</tr>";
 											}
 										?>
                                     </tr>
