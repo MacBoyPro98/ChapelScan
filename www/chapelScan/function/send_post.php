@@ -15,6 +15,7 @@ function append($filePath) {
 
     $size = filesize($file);
 
+    //if file is empty
     if ($size != 0) {
         $current = fread($file, $size);
         $temp = $current."\n".$_POST[id]."\n";

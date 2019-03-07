@@ -148,11 +148,57 @@ $results = mysqli_query($connect,"SELECT * FROM students");
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <p>
-                            <?php
-                                fetch_array_nathan($_SERVER["DOCUMENT_ROOT"]."/chapelScan/extra/testCSV.csv")
-                            ?>
-                        </p>
+                        <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                <thead>
+                                    <tr>
+                                        <th>Full Name</th>
+                                        <th>Card ID</th>
+                                        <th>Student ID</th>
+                                        <th>Photo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <?php 
+											$filePath = "C:/wamp64/extra/testCSV_modified.csv";
+											
+											$row = 1;
+											if (($file = fopen($filePath, "r")) !== FALSE) {
+												while (($data = fgetcsv($file, 1000, ",")) !== FALSE) {
+													echo "<tr>";
+													$num = count($data);
+													$row++;
+													for ($c=0; $c < $num; $c++)  {
+														echo "<td>" . $data[$c] . "</td>";
+													}
+													echo "</tr>";
+												}
+												fclose($file);
+											}
+										?>
+										<?php 
+											$file = file_get_contents($filePath);
+											$rows = explode("\n", $file);
+											array_shift($rows);
+											
+											foreach($rows as $row => $data) {
+												//get row data
+												$row_data = explode('^', $data);
+
+												$info[$row]['id']           = $row_data[0];
+												$info[$row]['name']         = $row_data[1];
+												$info[$row]['description']  = $row_data[2];
+												$info[$row]['images']       = $row_data[3];
+												
+												echo "<tr>";
+												echo "<td>" . rowData[0] . rowData[1];
+											}
+										?>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- /.table-responsive -->
+                        </div>
                         <!-- /.table-responsive -->
                     </div>
                     <!-- /.panel-body -->
