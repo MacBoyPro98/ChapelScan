@@ -2,11 +2,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
+import java.io.*;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.*;
 
 public class ViewController {
     @FXML private Button scanInButton;
@@ -15,9 +14,11 @@ public class ViewController {
     //List of users
     private ArrayList<Scan> scans = new ArrayList<>();
     //Create students list
-    public ArrayList<Student> students = new ArrayList<>();
+    private HashMap <Integer, Student> students = new HashMap<>();
 
-    private void populateStudents(ArrayList<Student> students) {
+    private LocalDate date = LocalDate.now();;
+
+    private void populateStudents(HashMap<Integer, Student> students) {
         //TODO: Update students list via scp
 
         try {
@@ -29,30 +30,54 @@ public class ViewController {
                 // Create new student object
                 Student stu = new Student(data[0], data[1], data[2], data[3], data[4]);
 
-                students.add(stu);
+                //Add student at cardID index
+                students.put(Integer.parseInt(data[2]), stu);
             }
             csvReader.close();
-
-            // Sort the list of students by first name
-            Collections.sort(students);
         } catch (Exception ex) {
-            System.out.println("[Error]: " + ex.toString());
+            System.out.println("\n[ERROR]: " + ex.toString() + "\n");
         }
+    }
 
-        //TODO: DELETE - FOR DEBUG PURPOSES
-        for (Student stu: students) {
-            stu.printStudentInfo();
+
+
+    private void writeToFile(String filePath, String id) {
+        try {
+            FileWriter fileWriter = new FileWriter(filePath, true);
+            BufferedWriter csvWriter = new BufferedWriter(fileWriter);
+
+            //Write to the file
+            csvWriter.write(id.toString() + "\n");
+
+            //Close the reader
+            csvWriter.close();
+        } catch (IOException ex) {
+            System.out.println("\n[ERROR]: " + ex.toString() + "\n");
         }
     }
 
     public void scanInButtonPressed(ActionEvent event) {
         //get the text
-        String id = scanInText.getText();
+        Integer id = Integer.parseInt(scanInText.getText());
 
         //check if student exists with card id
+        if (students.containsKey(id)) {
+            System.out.println("Found " + id);
 
+            //add to scanning list
+            writeToFile("extra/output-" + date.toString() + ".csv", id.toString());
 
-        //add to scanning list
+            //Clear text for next entry
+            scanInText.setText("");
+        } else {
+            //Warning
+            System.out.println("Could not find " + id + " - Please scan again");
+
+            writeToFile("extra/errors-" + date.toString() + ".csv", id.toString() + "\n");
+
+            //Clear text for next entry
+            scanInText.setText("");
+        }
     }
 
     public void initialize() {

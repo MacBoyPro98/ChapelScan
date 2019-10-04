@@ -16,9 +16,9 @@ public class Student implements Comparable<Student>{
 
     @Override
     public int compareTo(Student comparestu) {
-        String compareLName = ((Student)comparestu).lName;
+        String compareID = ((Student)comparestu).cardID;
 
-        return this.lName.compareTo(compareLName);
+        return this.cardID.compareTo(compareID);
     }
 
     protected void printStudentInfo() {
