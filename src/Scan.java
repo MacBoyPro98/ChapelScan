@@ -1,52 +1,39 @@
+import javafx.beans.property.SimpleStringProperty;
+
 public class Scan {
-    private String fName;
-    private String lName;
-    private Integer cardID;
-    private Integer studentID;
+    private SimpleStringProperty fullName;
+    private SimpleStringProperty cardID;
+    private SimpleStringProperty photoPath;
 
-    Scan(String fName, String lName, Integer cardID, Integer studentID) {
-        this.fName = fName;
-        this.lName = lName;
-        this.cardID = cardID;
-        this.studentID = studentID;
+    Scan(Student stu) {
+        this.fullName = new SimpleStringProperty(stu.getFullName());
+        this.cardID = new SimpleStringProperty(stu.getCardID());
+        this.photoPath = new SimpleStringProperty(stu.getPhotoPath());
     }
 
-    /* Getters */
-    public String getfName() {
-        return this.fName;
-    }
+    //METHODS
 
-    public String getlName() {
-        return this.lName;
-    }
-
-    public Integer getStudentID() {
-        return this.studentID;
-    }
-
-    public Integer getCardID() {
-        return this.cardID;
-    }
-
-    /* Setters */
-    public void setfName(String fName) {
-        this.fName = fName;
-    }
-
-    public void setlName(String lName) {
-        this.lName = lName;
-    }
-
-    public void setStudentID(Integer studentID) {
-        this.studentID = studentID;
-    }
-
-    public void setCardID(Integer cardID) {
-        this.cardID = cardID;
-    }
-
-    /* METHODS */
     public String getFullName() {
-        return this.fName + " " + this.lName;
+        return fullName.get();
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName.set(fullName);
+    }
+
+    public String getCardID() {
+        return cardID.get();
+    }
+
+    public void setCardID(String cardID) {
+        this.cardID.set(cardID);
+    }
+
+    public String getPhotoPath() {
+        return photoPath.getName();
+    }
+
+    public void setPhotoPath(String photoPath) {
+        this.photoPath.set(photoPath);
     }
 }

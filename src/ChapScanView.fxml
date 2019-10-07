@@ -7,43 +7,41 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.collections.*?>
+<!--<?import Student?>-->
 
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ViewController">
-   <children>
-      <TabPane prefHeight="406.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
-        <tabs>
-          <Tab text="Scan-In">
-               <content>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                     <children>
-                        <TableView fx:id="scanInTable" layoutY="54.0" prefHeight="319.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="54.0">
-                          <columns>
-                            <TableColumn id="nameCol" fx:id="scanInFullName" prefWidth="175.0" text="Full Name" />
-                            <TableColumn fx:id="scanInPhoto" prefWidth="300.0" text="Photo" />
-                              <TableColumn fx:id="scanInCardID" prefWidth="120.0" text="Card ID" />
-                          </columns>
-                        </TableView>
-                        <TextField fx:id="scanInText" layoutX="14.0" layoutY="14.0" onAction="#scanInButtonPressed" prefHeight="27.0" prefWidth="496.0" promptText="Enter ID" />
-                        <Button fx:id="scanInButton" layoutX="522.0" layoutY="14.0" mnemonicParsing="false" text="Scan In" />
-                     </children>
-                  </AnchorPane>
-               </content>
-          </Tab>
-          <Tab text="Scan-Out">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <TableView fx:id="scanOutTable" prefHeight="373.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <columns>
-                              <TableColumn id="nameCol" prefWidth="175.0" text="Full Name" />
-                              <TableColumn prefWidth="300.0" text="Photo" />
-                           </columns>
-                        </TableView>
-                     </children>
-                  </AnchorPane>
-            </content>
-          </Tab>
-        </tabs>
-      </TabPane>
-   </children>
+    <children>
+        <TabPane prefHeight="406.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab text="Scan-In">
+                    <content>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                            <children>
+                                <TableView fx:id="scanInTable" layoutY="54.0" prefHeight="319.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="54.0"></TableView>
+                                <TextField fx:id="scanInText" layoutX="14.0" layoutY="14.0" onAction="#scanInButtonPressed" prefHeight="27.0" prefWidth="496.0" promptText="Enter ID" />
+                                <Button fx:id="scanInButton" layoutX="522.0" layoutY="14.0" mnemonicParsing="false" text="Scan In" />
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab text="Scan-Out">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <children>
+                            <TableView fx:id="scanOutTable" prefHeight="373.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <columns>
+                                    <TableColumn id="nameCol" prefWidth="175.0" text="Full Name" />
+                                    <TableColumn prefWidth="300.0" text="Photo" />
+                                </columns>
+                            </TableView>
+                        </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </children>
 </AnchorPane>

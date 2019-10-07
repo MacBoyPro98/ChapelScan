@@ -1,24 +1,35 @@
-public class Student implements Comparable<Student>{
-    private String fName;
-    private String lName;
-    private String cardID;
-    private String stuID;
-    private String photoPath;
+import javafx.beans.property.SimpleStringProperty;
+
+public class Student{
+    private SimpleStringProperty fName;
+    private SimpleStringProperty lName;
+    private SimpleStringProperty fullName;
+    private SimpleStringProperty cardID;
+    private SimpleStringProperty stuID;
+    private SimpleStringProperty photoPath;
 
     Student(String fName, String lName, String cardID, String stuID, String photoPath) {
-        this.fName = fName;
-        this.lName = lName;
+        this.fName = new SimpleStringProperty(fName);
+        this.lName = new SimpleStringProperty(lName);
+        this.fullName = new SimpleStringProperty(fName + " " + lName);
         //TODO: Encrypt card and student ID
-        this.cardID = cardID;
-        this.stuID = stuID;
-        this.photoPath = photoPath;
+        this.cardID = new SimpleStringProperty(cardID);
+        this.stuID = new SimpleStringProperty(stuID);
+        this.photoPath = new SimpleStringProperty(photoPath);
     }
 
-    @Override
-    public int compareTo(Student comparestu) {
-        String compareID = ((Student)comparestu).cardID;
+    //METHODS
 
-        return this.cardID.compareTo(compareID);
+    protected String getFullName() {
+        return fullName.get();
+    }
+
+    public String getCardID() {
+        return cardID.get();
+    }
+
+    protected String getPhotoPath() {
+        return "extra/photos/" + this.photoPath;
     }
 
     protected void printStudentInfo() {

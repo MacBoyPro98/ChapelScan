@@ -1,24 +1,42 @@
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.*;
-import java.time.Instant;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 public class ViewController {
     @FXML private Button scanInButton;
     @FXML private TextField scanInText;
 
+    //Table
+    @FXML private TableView<Scan> scanInTable;
+
     //List of users
-    private ArrayList<Scan> scans = new ArrayList<>();
+    private ObservableList<Scan> scans = FXCollections.observableArrayList();
     //Create students list
-    private HashMap <Integer, Student> students = new HashMap<>();
+    private ObservableMap<Integer, Student> students = FXCollections.observableHashMap();
 
-    private LocalDate date = LocalDate.now();;
+    private final LocalDate date = LocalDate.now();
 
-    private void populateStudents(HashMap<Integer, Student> students) {
+    private byte[] hashedValue(String val, String salt) throws NoSuchAlgorithmException{
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        return md.digest((val + salt).getBytes(StandardCharsets.UTF_8));
+    }
+
+    private void populateStudents(ObservableMap<Integer, Student> students) {
         //TODO: Update students list via scp
 
         try {
@@ -37,9 +55,11 @@ public class ViewController {
         } catch (Exception ex) {
             System.out.println("\n[ERROR]: " + ex.toString() + "\n");
         }
+
+//        for (Student stu: students.values()) {
+//            stu.printStudentInfo();
+//        }
     }
-
-
 
     private void writeToFile(String filePath, String id) {
         try {
@@ -47,7 +67,7 @@ public class ViewController {
             BufferedWriter csvWriter = new BufferedWriter(fileWriter);
 
             //Write to the file
-            csvWriter.write(id.toString() + "\n");
+            csvWriter.write(id + "\n");
 
             //Close the reader
             csvWriter.close();
@@ -60,28 +80,68 @@ public class ViewController {
         //get the text
         Integer id = Integer.parseInt(scanInText.getText());
 
-        //check if student exists with card id
-        if (students.containsKey(id)) {
-            System.out.println("Found " + id);
+        Scan currentScan = new Scan(students.get(id));
 
-            //add to scanning list
-            writeToFile("extra/output-" + date.toString() + ".csv", id.toString());
+        // Duplicate checking
+        if (scans.contains(currentScan)) {
+
+            System.out.println(id.toString() + " already in list");
 
             //Clear text for next entry
             scanInText.setText("");
         } else {
-            //Warning
-            System.out.println("Could not find " + id + " - Please scan again");
+            //check if student exists with card id
+            if (students.containsKey(id)) {
+                System.out.println("Found " + id.toString());
 
-            writeToFile("extra/errors-" + date.toString() + ".csv", id.toString() + "\n");
+                //add to scanning list
+                scans.add(new Scan(students.get(id)));
+                writeToFile("extra/output-" + date.toString() + ".csv", id.toString());
 
-            //Clear text for next entry
-            scanInText.setText("");
+                //Update TableView Items
+                scanInTable.setItems(scans);
+
+                //Refresh Table
+                scanInTable.refresh();
+
+                //Clear text for next entry
+                scanInText.setText("");
+            } else {
+                //Warning
+                System.out.println("Could not find " + id + " - Please scan again");
+
+                writeToFile("extra/errors-" + date.toString() + ".csv", id.toString() + "\n");
+
+                //Clear text for next entry
+                scanInText.setText("");
+            }
         }
     }
 
     public void initialize() {
         //Open and read the students file
         populateStudents(students);
+
+        //Setup table Columns
+        TableColumn scanInFullName = new TableColumn("Name");
+        scanInFullName.setPrefWidth(175.0);
+        TableColumn scanInPhoto = new TableColumn("Photo");
+        scanInPhoto.setPrefWidth(425.0);
+        scanInTable.getColumns().addAll(scanInFullName, scanInPhoto);
+
+        //Define data in an observable list
+//        final ObservableList<Scan> data = FXCollections.observableArrayList(
+//            new Scan(students.get(24665)),
+//            new Scan(students.get(50083))
+//        );
+
+        //Associate data with columns
+        scanInFullName.setCellValueFactory(new PropertyValueFactory<String, Scan>("fullName"));
+        scanInPhoto.setCellValueFactory(new PropertyValueFactory<String, Scan>("photoPath"));
+
+        //Add Data to the Table
+//        scanInTable.setItems(scans);
+
+        scanInTable.setPlaceholder(new Label("No rows to display"));
     }
 }
