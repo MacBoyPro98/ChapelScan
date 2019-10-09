@@ -2,3 +2,5 @@
 /.idea
 /notes
 /extra/photos/
+/out
+/extra/*.csv
