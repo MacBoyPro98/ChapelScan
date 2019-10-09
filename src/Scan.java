@@ -1,15 +1,9 @@
 import javafx.beans.property.SimpleStringProperty;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.shape.Circle;
-
-import javax.imageio.stream.ImageInputStream;
-import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 
 public class Scan {
     private SimpleStringProperty fullName;

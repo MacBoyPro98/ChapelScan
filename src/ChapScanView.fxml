@@ -23,20 +23,22 @@
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
                             <children>
                                 <TableView fx:id="scanInTable" layoutY="54.0" prefHeight="319.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="54.0" />
-                                <TextField fx:id="scanInText" layoutX="14.0" layoutY="14.0" onAction="#scanInButtonPressed" prefHeight="27.0" prefWidth="496.0" promptText="Enter ID" />
-                                <Button fx:id="scanInButton" layoutX="522.0" layoutY="14.0" onAction="#scanInButtonPressed" mnemonicParsing="false" text="Scan In" />
+                                <TextField fx:id="scanInText" layoutX="14.0" layoutY="14.0" onAction="#scanInButtonPressed" prefHeight="27.0" prefWidth="496.0" promptText="Enter ID" AnchorPane.bottomAnchor="332.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+                                <Button fx:id="scanInButton" layoutX="522.0" layoutY="14.0" mnemonicParsing="false" onAction="#scanInButtonPressed" text="Scan In" AnchorPane.rightAnchor="14.0" />
                             </children>
                         </AnchorPane>
                     </content>
                 </Tab>
                 <Tab text="Scan-Out">
-                    <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <ImageView fx:id="scanOutImage" fitHeight="150.0" fitWidth="200.0" layoutX="83.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true" />
+                         <TableView fx:id="scanOutTable" layoutY="57.0" prefHeight="319.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="54.0" />
+                         <TextField fx:id="scanOutText" layoutX="20.0" layoutY="14.0" onAction="#scanOutButtonPressed" prefHeight="27.0" prefWidth="480.0" promptText="Enter ID" AnchorPane.bottomAnchor="332.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+                         <Button fx:id="scanOutButton" layoutX="509.0" layoutY="14.0" mnemonicParsing="false" text="Scan-Out" />
                      </children>
-                        </AnchorPane>
-                    </content>
+                  </AnchorPane>
+               </content>
                 </Tab>
             </tabs>
         </TabPane>

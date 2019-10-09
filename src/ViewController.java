@@ -1,34 +1,32 @@
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toList;
 
 public class ViewController {
     @FXML private Button scanInButton;
     @FXML private TextField scanInText;
-    @FXML private ImageView scanInImage;
+    @FXML private TextField scanOutText;
 
-    //Table
+    //Tables
     @FXML private TableView<Scan> scanInTable;
+    @FXML private TableView<Scan> scanOutTable;
 
     //List of users
-    private ObservableList<Scan> scans = FXCollections.observableArrayList();
+    private ObservableList<Scan> scansIn = FXCollections.observableArrayList();
+    private ObservableList<Scan> scansOut = FXCollections.observableArrayList();
     //Create students list
     private ObservableMap<Integer, Student> students = FXCollections.observableHashMap();
 
@@ -79,51 +77,84 @@ public class ViewController {
         //get the text
         Integer id = Integer.parseInt(scanInText.getText());
 
-        Scan currentScan = new Scan(students.get(id));
+        //check if student exists with card id
+        if (students.containsKey(id)) {
+//            System.out.println("Found " + id.toString());
 
-        // Duplicate checking
-        if (scans.contains(currentScan)) {
+            //add to scanning list
+            scansIn.add(0, new Scan(students.get(id)));
+            writeToFile("extra/in-" + date.toString() + ".csv", id.toString());
 
-            System.out.println(id.toString() + " already in list");
+            //Update TableView Items
+            scanInTable.setItems(scansIn);
+
+            //Refresh Table
+            scanInTable.refresh();
 
             //Clear text for next entry
             scanInText.setText("");
         } else {
-            //check if student exists with card id
-            if (students.containsKey(id)) {
-                System.out.println("Found " + id.toString());
+            //Warning
+            System.out.println("Could not find " + id + " - Please scan again");
 
-                //add to scanning list
-                scans.add(0, new Scan(students.get(id)));
-                writeToFile("extra/output-" + date.toString() + ".csv", id.toString());
+            writeToFile("extra/errors-" + date.toString() + ".csv", id.toString() + "\n");
 
-                //Update TableView Items
-                scanInTable.setItems(scans);
+            //Clear text for next entry
+            scanInText.setText("");
+        }
+    }
 
-//                scanOutImage = new ImageView(currentScan.getPhoto());
+    public void scanOutButtonPressed(ActionEvent event) {
+        //get the text
+        Integer id = Integer.parseInt(scanOutText.getText());
 
-                //Refresh Table
-                scanInTable.refresh();
+        //check if student exists with card id
+        if (students.containsKey(id)) {
+//            System.out.println("Found " + id.toString());
 
-                //Clear text for next entry
-                scanInText.setText("");
-            } else {
-                //Warning
-                System.out.println("Could not find " + id + " - Please scan again");
+            //add to scanning-out list
+            scansOut.add(0, new Scan(students.get(id)));
+            writeToFile("extra/out-" + date.toString() + ".csv", id.toString());
 
-                writeToFile("extra/errors-" + date.toString() + ".csv", id.toString() + "\n");
+            //Update TableView Items
+            scanOutTable.setItems(scansOut);
 
-                //Clear text for next entry
-                scanInText.setText("");
-            }
+            //Refresh Table
+            scanOutTable.refresh();
+
+            //Clear text for next entry
+            scanOutText.setText("");
+        } else {
+            //Warning
+            System.out.println("Could not find " + id + " - Please scan again");
+
+            writeToFile("extra/errors-" + date.toString() + ".csv", id.toString() + "\n");
+
+            //Clear text for next entry
+            scanOutText.setText("");
         }
     }
 
     public void initialize() {
+        String paths[] = {
+                "extra/in-" + date + ".csv",
+                "extra/out-" + date + ".csv",
+                "extra/errors-" + date + ".csv"
+        };
+
+        for (String path:paths) {
+            try {
+                Files.deleteIfExists(Paths.get(path));
+                System.out.println(path + " deleted");
+            } catch (IOException ex) {
+                System.out.println("path doesnt exist");
+            }
+        }
+
         //Open and read the students file
         populateStudents(students);
 
-        //Setup table Columns
+        //Setup Scan-In table
         TableColumn scanInFullName = new TableColumn<String, Scan>("Name");
         scanInFullName.setPrefWidth(175.0);
         TableColumn scanInPhoto = new TableColumn<ImageView, Scan>("Photo");
@@ -136,5 +167,19 @@ public class ViewController {
         scanInPhoto.setCellValueFactory(new PropertyValueFactory<ImageView, Scan>("photo"));
 
         scanInTable.setPlaceholder(new Label("No rows to display"));
+
+        //Setup Scan-Out table
+        TableColumn scanOutFullName = new TableColumn<String, Scan>("Name");
+        scanOutFullName.setPrefWidth(175.0);
+        TableColumn scanOutPhoto = new TableColumn<ImageView, Scan>("Photo");
+        scanOutPhoto.setPrefWidth(425.0);
+        scanOutPhoto.setStyle("-fx-alignment: CENTER;");
+        scanOutTable.getColumns().addAll(scanOutFullName, scanOutPhoto);
+
+        //Associate data with columns
+        scanOutFullName.setCellValueFactory(new PropertyValueFactory<String, Scan>("fullName"));
+        scanOutPhoto.setCellValueFactory(new PropertyValueFactory<ImageView, Scan>("photo"));
+
+        scanOutTable.setPlaceholder(new Label("No rows to display"));
     }
 }
