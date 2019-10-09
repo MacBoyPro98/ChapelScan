@@ -6,6 +6,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -20,6 +22,7 @@ import static java.util.stream.Collectors.toList;
 public class ViewController {
     @FXML private Button scanInButton;
     @FXML private TextField scanInText;
+    @FXML private ImageView scanInImage;
 
     //Table
     @FXML private TableView<Scan> scanInTable;
@@ -55,10 +58,6 @@ public class ViewController {
         } catch (Exception ex) {
             System.out.println("\n[ERROR]: " + ex.toString() + "\n");
         }
-
-//        for (Student stu: students.values()) {
-//            stu.printStudentInfo();
-//        }
     }
 
     private void writeToFile(String filePath, String id) {
@@ -95,11 +94,13 @@ public class ViewController {
                 System.out.println("Found " + id.toString());
 
                 //add to scanning list
-                scans.add(new Scan(students.get(id)));
+                scans.add(0, new Scan(students.get(id)));
                 writeToFile("extra/output-" + date.toString() + ".csv", id.toString());
 
                 //Update TableView Items
                 scanInTable.setItems(scans);
+
+//                scanOutImage = new ImageView(currentScan.getPhoto());
 
                 //Refresh Table
                 scanInTable.refresh();
@@ -123,24 +124,16 @@ public class ViewController {
         populateStudents(students);
 
         //Setup table Columns
-        TableColumn scanInFullName = new TableColumn("Name");
+        TableColumn scanInFullName = new TableColumn<String, Scan>("Name");
         scanInFullName.setPrefWidth(175.0);
-        TableColumn scanInPhoto = new TableColumn("Photo");
+        TableColumn scanInPhoto = new TableColumn<ImageView, Scan>("Photo");
         scanInPhoto.setPrefWidth(425.0);
+        scanInPhoto.setStyle("-fx-alignment: CENTER;");
         scanInTable.getColumns().addAll(scanInFullName, scanInPhoto);
-
-        //Define data in an observable list
-//        final ObservableList<Scan> data = FXCollections.observableArrayList(
-//            new Scan(students.get(24665)),
-//            new Scan(students.get(50083))
-//        );
 
         //Associate data with columns
         scanInFullName.setCellValueFactory(new PropertyValueFactory<String, Scan>("fullName"));
-        scanInPhoto.setCellValueFactory(new PropertyValueFactory<String, Scan>("photoPath"));
-
-        //Add Data to the Table
-//        scanInTable.setItems(scans);
+        scanInPhoto.setCellValueFactory(new PropertyValueFactory<ImageView, Scan>("photo"));
 
         scanInTable.setPlaceholder(new Label("No rows to display"));
     }

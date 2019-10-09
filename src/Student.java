@@ -20,16 +20,16 @@ public class Student{
 
     //METHODS
 
-    protected String getFullName() {
+    String getFullName() {
         return fullName.get();
     }
 
-    public String getCardID() {
+    String getCardID() {
         return cardID.get();
     }
 
-    protected String getPhotoPath() {
-        return "extra/photos/" + this.photoPath;
+    String getPhotoPath() {
+        return "extra/photos/" + this.photoPath.get();
     }
 
     protected void printStudentInfo() {

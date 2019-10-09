@@ -1,14 +1,35 @@
 import javafx.beans.property.SimpleStringProperty;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.shape.Circle;
+
+import javax.imageio.stream.ImageInputStream;
+import java.awt.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 public class Scan {
     private SimpleStringProperty fullName;
     private SimpleStringProperty cardID;
-    private SimpleStringProperty photoPath;
+    private ImageView photo;
 
     Scan(Student stu) {
         this.fullName = new SimpleStringProperty(stu.getFullName());
         this.cardID = new SimpleStringProperty(stu.getCardID());
-        this.photoPath = new SimpleStringProperty(stu.getPhotoPath());
+        try {
+            this.photo = new ImageView(new Image(new FileInputStream(stu.getPhotoPath())));
+        } catch (FileNotFoundException ex) {
+            File file = new File("extra/photos/No_picture_available_25.png");
+            this.photo = new ImageView(new Image(file.toURI().toString()));
+        }
+        this.photo.maxHeight(125);
+        this.photo.setFitHeight(125);
+        this.photo.setPreserveRatio(true);
+        this.photo.setSmooth(true);
+        this.photo.setCache(true);
     }
 
     //METHODS
@@ -29,11 +50,7 @@ public class Scan {
         this.cardID.set(cardID);
     }
 
-    public String getPhotoPath() {
-        return photoPath.getName();
-    }
-
-    public void setPhotoPath(String photoPath) {
-        this.photoPath.set(photoPath);
+    public ImageView getPhoto() {
+        return photo;
     }
 }
