@@ -5,6 +5,7 @@ import javafx.scene.*;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -18,6 +19,11 @@ public class ChapScan extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/ChapScanView.fxml"));
+
+        //Icon
+//        Image icon = new Image("resources/icons/ChapScan.png");
+//        primaryStage.getIcons().add(icon);
+
         primaryStage.setTitle("ChapelScan");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();

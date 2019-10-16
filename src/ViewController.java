@@ -38,16 +38,16 @@ public class ViewController {
     }
 
     private void populateStudents(ObservableMap<Integer, Student> students) {
-        //TODO: Update students list via scp
+        //TODO: Update students list via scp/sftp
 
         try {
-            BufferedReader csvReader = new BufferedReader(new FileReader("extra/testCSV.csv"));
+            BufferedReader csvReader = new BufferedReader(new FileReader("resources/testCSV.csv"));
 
             while (csvReader.ready()) {
                 String[] data = csvReader.readLine().split(",");
 
                 // Create new student object
-                Student stu = new Student(data[0], data[1], data[2], data[3], data[4]);
+                Student stu = new Student(data[0], data[1], data[2], data[3], data[2] + ".png");
 
                 //Add student at cardID index
                 students.put(Integer.parseInt(data[2]), stu);

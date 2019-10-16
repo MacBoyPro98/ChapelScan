@@ -16,7 +16,7 @@ public class Scan {
         try {
             this.photo = new ImageView(new Image(new FileInputStream(stu.getPhotoPath())));
         } catch (FileNotFoundException ex) {
-            File file = new File("extra/photos/No_picture_available_25.png");
+            File file = new File("resources/photos/No_picture_available_25.png");
             this.photo = new ImageView(new Image(file.toURI().toString()));
         }
         this.photo.maxHeight(125);

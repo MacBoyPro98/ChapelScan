@@ -29,7 +29,7 @@ public class Student{
     }
 
     String getPhotoPath() {
-        return "extra/photos/" + this.photoPath.get();
+        return "resources/photos/" + this.photoPath.get();
     }
 
     protected void printStudentInfo() {
