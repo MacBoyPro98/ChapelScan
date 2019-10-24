@@ -15,7 +15,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 
-public class ViewController {
+public class ViewController extends ChapScan{
     @FXML private Button scanInButton;
     @FXML private TextField scanInText;
     @FXML private TextField scanOutText;
@@ -58,7 +58,7 @@ public class ViewController {
         }
     }
 
-    private void writeToFile(String filePath, String id) {
+    private void writeToFile(String filePath, String id) throws IOException {
         try {
             FileWriter fileWriter = new FileWriter(filePath, true);
             BufferedWriter csvWriter = new BufferedWriter(fileWriter);
@@ -73,7 +73,7 @@ public class ViewController {
         }
     }
 
-    public void scanInButtonPressed(ActionEvent event) {
+    public void scanInButtonPressed(ActionEvent event) throws IOException {
         //get the text
         Integer id = Integer.parseInt(scanInText.getText());
 
@@ -104,7 +104,7 @@ public class ViewController {
         }
     }
 
-    public void scanOutButtonPressed(ActionEvent event) {
+    public void scanOutButtonPressed(ActionEvent event) throws IOException {
         //get the text
         Integer id = Integer.parseInt(scanOutText.getText());
 
@@ -136,7 +136,7 @@ public class ViewController {
     }
 
     public void initialize() {
-        String paths[] = {
+        String[] paths = {
                 "extra/in-" + date + ".csv",
                 "extra/out-" + date + ".csv",
                 "extra/errors-" + date + ".csv"

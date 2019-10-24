@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-public class Scan {
+public class Scan extends ChapScan {
     private SimpleStringProperty fullName;
     private SimpleStringProperty cardID;
     private ImageView photo;

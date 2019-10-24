@@ -1,5 +1,10 @@
 import javafx.beans.property.SimpleStringProperty;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+
 public class Student{
     private SimpleStringProperty fName;
     private SimpleStringProperty lName;
@@ -8,17 +13,21 @@ public class Student{
     private SimpleStringProperty stuID;
     private SimpleStringProperty photoPath;
 
-    Student(String fName, String lName, String cardID, String stuID, String photoPath) {
+    Student(String fName, String lName, String cardID, String stuID, String photoPath) throws NoSuchAlgorithmException {
         this.fName = new SimpleStringProperty(fName);
         this.lName = new SimpleStringProperty(lName);
         this.fullName = new SimpleStringProperty(fName + " " + lName);
         //TODO: Encrypt card and student ID
-        this.cardID = new SimpleStringProperty(cardID);
-        this.stuID = new SimpleStringProperty(stuID);
+        this.cardID = new SimpleStringProperty(Arrays.toString(hash256(cardID, "salt")));
+        this.stuID = new SimpleStringProperty(Arrays.toString(hash256(stuID, "salt")));
         this.photoPath = new SimpleStringProperty(photoPath);
     }
 
     //METHODS
+    public byte[] hash256(String value, String salt) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        return md.digest((value + salt).getBytes(StandardCharsets.UTF_8));
+    }
 
     String getFullName() {
         return fullName.get();

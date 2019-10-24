@@ -1,28 +1,17 @@
 import javafx.application.Application;
-import javafx.collections.ObservableMap;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import javax.xml.bind.annotation.XmlElementDecl;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.util.LinkedList;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class ChapScan extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/ChapScanView.fxml"));
-
-        //Icon
-//        Image icon = new Image("resources/icons/ChapScan.png");
-//        primaryStage.getIcons().add(icon);
 
         primaryStage.setTitle("ChapelScan");
         primaryStage.setScene(new Scene(root));
