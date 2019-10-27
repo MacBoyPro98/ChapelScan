@@ -8,6 +8,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 
 import java.io.*;
+import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -30,7 +31,13 @@ public class ViewController extends ChapScan{
     //Create students list
     private ObservableMap<Integer, Student> students = FXCollections.observableHashMap();
 
-    private final LocalDate date = LocalDate.now();
+    // Variables for file creation
+    private String date = LocalDate.now().toString();
+    private final String outDir = "W:/";
+    private String localMachineName = java.net.InetAddress.getLocalHost().getHostName();
+
+    public ViewController() throws UnknownHostException {
+    }
 
     private byte[] hashedValue(String val, String salt) throws NoSuchAlgorithmException{
         MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -83,7 +90,7 @@ public class ViewController extends ChapScan{
 
             //add to scanning list
             scansIn.add(0, new Scan(students.get(id)));
-            writeToFile("extra/in-" + date.toString() + ".csv", id.toString());
+            writeToFile( outDir + "CHAPIN_" + date + "_" + localMachineName + ".txt", id.toString());
 
             //Update TableView Items
             scanInTable.setItems(scansIn);
@@ -97,7 +104,7 @@ public class ViewController extends ChapScan{
             //Warning
             System.out.println("Could not find " + id + " - Please scan again");
 
-            writeToFile("extra/errors-" + date.toString() + ".csv", id.toString() + "\n");
+            writeToFile(outDir + "CHAPERRORS_" + date + "_" + localMachineName + ".txt", id.toString() + "\n");
 
             //Clear text for next entry
             scanInText.setText("");
@@ -114,7 +121,7 @@ public class ViewController extends ChapScan{
 
             //add to scanning-out list
             scansOut.add(0, new Scan(students.get(id)));
-            writeToFile("extra/out-" + date.toString() + ".csv", id.toString());
+            writeToFile(outDir + "CHAPOUT_" + date + "_" + localMachineName + ".txt", id.toString());
 
             //Update TableView Items
             scanOutTable.setItems(scansOut);
@@ -128,7 +135,7 @@ public class ViewController extends ChapScan{
             //Warning
             System.out.println("Could not find " + id + " - Please scan again");
 
-            writeToFile("extra/errors-" + date.toString() + ".csv", id.toString() + "\n");
+            writeToFile(outDir + "CHAPERRORS_" + date + "_" + localMachineName + ".txt", id.toString() + "\n");
 
             //Clear text for next entry
             scanOutText.setText("");
@@ -136,10 +143,18 @@ public class ViewController extends ChapScan{
     }
 
     public void initialize() {
+        localMachineName = localMachineName.split("-")[0];
+
+        // format the date
+        String[] formattedDateVars = date.split("-");
+        formattedDateVars[0] = formattedDateVars[0].substring(2);
+        date = formattedDateVars[0] + formattedDateVars[1] + formattedDateVars[2];
+
         String[] paths = {
-                "extra/in-" + date + ".csv",
-                "extra/out-" + date + ".csv",
-                "extra/errors-" + date + ".csv"
+                outDir + "CHAPIN_" + date + "_" + localMachineName + ".txt",
+                outDir + "CHAPOUT_" + date + "_" + localMachineName + ".txt",
+                outDir + "CHAPTARDY_" + date + "_" + localMachineName + ".txt",
+                outDir + "CHAPERRORS_" + date + "_" + localMachineName + ".txt"
         };
 
         for (String path:paths) {
