@@ -27,6 +27,21 @@ public class Scan extends ChapScan {
     }
 
     //METHODS
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (!(o instanceof Scan)) {
+            return false;
+        }
+        Scan scan = (Scan) o;
+
+        // persons.id.equals() leads to the default implementation in Object
+        // --> instead use this one.
+        // The Property classes have their own isEqualTo method
+        // with get(), you will get your simple boolean from the returned BooleanBinding
+        return scan.cardID.isEqualTo(cardID).get() &&
+                scan.fullName.isEqualTo(fullName).get();
+    }
 
     public String getFullName() {
         return fullName.get();

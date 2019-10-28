@@ -1,6 +1,9 @@
+import javafx.beans.Observable;
+import javafx.beans.property.IntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
+import javafx.collections.ObservableSet;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -18,6 +21,7 @@ import java.time.LocalDate;
 
 public class ViewController extends ChapScan{
     @FXML private Button scanInButton;
+    @FXML private Button scanOutButton;
     @FXML private TextField scanInText;
     @FXML private TextField scanOutText;
 
@@ -80,65 +84,101 @@ public class ViewController extends ChapScan{
         }
     }
 
-    public void scanInButtonPressed(ActionEvent event) throws IOException {
-        //get the text
-        Integer id = Integer.parseInt(scanInText.getText());
+    public void scanButtonPressed(ActionEvent event) throws IOException {
+        String file = "";
+        String text = "";
 
-        //check if student exists with card id
-        if (students.containsKey(id)) {
+        if (event.getSource() == scanInButton || event.getSource() == scanInText) {
+            file = outDir + "CHAPIN_" + date + "_" + localMachineName + ".txt";
+            text = scanInText.getText();
+
+            //get the text
+            Integer id = Integer.parseInt(text);
+
+            //check if student exists with card id
+            if (students.containsKey(id)) {
+                Scan newScan = new Scan(students.get(id));
+
+                //check duplicates
+                if (!scansIn.contains(newScan)) {
+                    //add to scanning list
+                    scansIn.add(0, newScan);
+                    writeToFile(file, id.toString());
+
+                    //Update TableView Items
+                    scanInTable.setItems(scansIn);
+
+                    //Refresh Table
+                    scanInTable.refresh();
+
+                    //Clear text for next entry
+                    scanInText.setText("");
+                } else {
+                    System.out.println("Duplicate Scan Detected");
+
+                    //Refresh Table
+                    scanInTable.refresh();
+
+                    //Clear text for next entry
+                    scanInText.setText("");
+                }
 //            System.out.println("Found " + id.toString());
+            } else {
+                //Warning
+                System.out.println("Could not find " + id + " - Please scan again");
 
-            //add to scanning list
-            scansIn.add(0, new Scan(students.get(id)));
-            writeToFile( outDir + "CHAPIN_" + date + "_" + localMachineName + ".txt", id.toString());
+                writeToFile(outDir + "CHAPERRORS_" + date + "_" + localMachineName + ".txt", id.toString() + "\n");
 
-            //Update TableView Items
-            scanInTable.setItems(scansIn);
+                //Clear text for next entry
+                scanInText.setText("");
+            }
+        } else if (event.getSource() == scanOutButton || event.getSource() == scanOutText) {
+            file = outDir + "CHAPOUT_" + date + "_" + localMachineName + ".txt";
+            text = scanOutText.getText();
 
-            //Refresh Table
-            scanInTable.refresh();
+            //get the text
+            Integer id = Integer.parseInt(text);
 
-            //Clear text for next entry
-            scanInText.setText("");
-        } else {
-            //Warning
-            System.out.println("Could not find " + id + " - Please scan again");
+            //check if student exists with card id
+            if (students.containsKey(id)) {
+                Scan newScan = new Scan(students.get(id));
 
-            writeToFile(outDir + "CHAPERRORS_" + date + "_" + localMachineName + ".txt", id.toString() + "\n");
+                //check duplicates
+                if (!scansOut.contains(newScan)) {
+                    //add to scanning list
+                    scansOut.add(0, newScan);
+                    writeToFile(file, id.toString());
 
-            //Clear text for next entry
-            scanInText.setText("");
-        }
-    }
+                    //Update TableView Items
+                    scanOutTable.setItems(scansOut);
 
-    public void scanOutButtonPressed(ActionEvent event) throws IOException {
-        //get the text
-        Integer id = Integer.parseInt(scanOutText.getText());
+                    //Refresh Table
+                    scanOutTable.refresh();
 
-        //check if student exists with card id
-        if (students.containsKey(id)) {
+                    //Clear text for next entry
+                    scanOutText.setText("");
+                } else {
+                    System.out.println("Duplicate Scan Detected");
+
+                    //Refresh Table
+                    scanOutTable.refresh();
+
+                    //Clear text for next entry
+                    scanOutText.setText("");
+                }
 //            System.out.println("Found " + id.toString());
+            } else {
+                //Warning
+                System.out.println("Could not find " + id + " - Please scan again");
 
-            //add to scanning-out list
-            scansOut.add(0, new Scan(students.get(id)));
-            writeToFile(outDir + "CHAPOUT_" + date + "_" + localMachineName + ".txt", id.toString());
+                writeToFile(outDir + "CHAPERRORS_" + date + "_" + localMachineName + ".txt", id.toString() + "\n");
 
-            //Update TableView Items
-            scanOutTable.setItems(scansOut);
-
-            //Refresh Table
-            scanOutTable.refresh();
-
-            //Clear text for next entry
-            scanOutText.setText("");
+                //Clear text for next entry
+                scanOutText.setText("");
+            }
         } else {
-            //Warning
-            System.out.println("Could not find " + id + " - Please scan again");
-
-            writeToFile(outDir + "CHAPERRORS_" + date + "_" + localMachineName + ".txt", id.toString() + "\n");
-
-            //Clear text for next entry
-            scanOutText.setText("");
+            System.out.println(event.getSource() + " triggered event");
+            System.exit(1);
         }
     }
 
