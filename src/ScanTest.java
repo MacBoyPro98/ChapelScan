@@ -2,6 +2,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
 import java.security.NoSuchAlgorithmException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ScanTest {
 
     @Test
-    void getFullName() throws NoSuchAlgorithmException {
+    void getFullName() throws NoSuchAlgorithmException, FileNotFoundException {
         //Create tester object
         Scan tester = new Scan(new Student("John", "Doe", "12345", "123456", "12345.png"));
 
@@ -17,7 +18,7 @@ class ScanTest {
     }
 
     @Test
-    void setFullName() throws NoSuchAlgorithmException {
+    void setFullName() throws NoSuchAlgorithmException, FileNotFoundException {
         //Create tester object
         Scan tester = new Scan(new Student("John", "Doe", "12345", "123456", "12345.png"));
 
@@ -27,7 +28,7 @@ class ScanTest {
     }
 
     @Test
-    void getCardID() throws NoSuchAlgorithmException {
+    void getCardID() throws NoSuchAlgorithmException, FileNotFoundException {
         //Create tester object
         Scan tester = new Scan(new Student("John", "Doe", "12345", "123456", "12345.png"));
 
@@ -35,7 +36,7 @@ class ScanTest {
     }
 
     @Test
-    void setCardID() throws NoSuchAlgorithmException {
+    void setCardID() throws NoSuchAlgorithmException, FileNotFoundException {
         //Create tester object
         Scan tester = new Scan(new Student("John", "Doe", "12345", "123456", "12345.png"));
 

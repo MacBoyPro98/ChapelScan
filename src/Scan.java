@@ -10,13 +10,15 @@ public class Scan extends ChapScan {
     private SimpleStringProperty cardID;
     private ImageView photo;
 
-    Scan(Student stu) {
+    PropertyFile config = new PropertyFile();
+
+    Scan(Student stu) throws FileNotFoundException {
         this.fullName = new SimpleStringProperty(stu.getFullName());
         this.cardID = new SimpleStringProperty(stu.getCardID());
         try {
             this.photo = new ImageView(new Image(new FileInputStream(stu.getPhotoPath())));
         } catch (FileNotFoundException ex) {
-            File file = new File("resources/photos/No_picture_available_25.png");
+            File file = new File(config.prop.getProperty("imageDir") + "No_picture_available_25.png");
             this.photo = new ImageView(new Image(file.toURI().toString()));
         }
         this.photo.maxHeight(125);

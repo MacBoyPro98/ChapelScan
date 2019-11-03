@@ -19,7 +19,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 
-public class ViewController extends ChapScan{
+public class ViewController extends ChapScan {
     @FXML private Button scanInButton;
     @FXML private Button scanOutButton;
     @FXML private TextField scanInText;
@@ -29,6 +29,8 @@ public class ViewController extends ChapScan{
     @FXML private TableView<Scan> scanInTable;
     @FXML private TableView<Scan> scanOutTable;
 
+    private PropertyFile config = new PropertyFile();
+
     //List of users
     private ObservableList<Scan> scansIn = FXCollections.observableArrayList();
     private ObservableList<Scan> scansOut = FXCollections.observableArrayList();
@@ -37,10 +39,9 @@ public class ViewController extends ChapScan{
 
     // Variables for file creation
     private String date = LocalDate.now().toString();
-    private final String outDir = "W:/";
     private String localMachineName = java.net.InetAddress.getLocalHost().getHostName();
 
-    public ViewController() throws UnknownHostException {
+    public ViewController() throws UnknownHostException, FileNotFoundException {
     }
 
     private byte[] hashedValue(String val, String salt) throws NoSuchAlgorithmException{
@@ -52,7 +53,7 @@ public class ViewController extends ChapScan{
         //TODO: Update students list via scp/sftp
 
         try {
-            BufferedReader csvReader = new BufferedReader(new FileReader("resources/testCSV.csv"));
+            BufferedReader csvReader = new BufferedReader(new FileReader(config.prop.getProperty("csvLocation")));
 
             while (csvReader.ready()) {
                 String[] data = csvReader.readLine().split(",");
@@ -87,9 +88,9 @@ public class ViewController extends ChapScan{
     public void scanButtonPressed(ActionEvent event) throws IOException {
         String file = "";
         String text = "";
-
+        
         if (event.getSource() == scanInButton || event.getSource() == scanInText) {
-            file = outDir + "CHAPIN_" + date + "_" + localMachineName + ".txt";
+            file = config.prop.getProperty("outfileDir") + "CHAPIN_" + date + "_" + localMachineName + ".txt";
             text = scanInText.getText();
 
             //get the text
@@ -127,13 +128,13 @@ public class ViewController extends ChapScan{
                 //Warning
                 System.out.println("Could not find " + id + " - Please scan again");
 
-                writeToFile(outDir + "CHAPERRORS_" + date + "_" + localMachineName + ".txt", id.toString() + "\n");
+                writeToFile(config.prop.getProperty("outfileDir") + "CHAPERRORS_" + date + "_" + localMachineName + ".txt", id.toString() + "\n");
 
                 //Clear text for next entry
                 scanInText.setText("");
             }
         } else if (event.getSource() == scanOutButton || event.getSource() == scanOutText) {
-            file = outDir + "CHAPOUT_" + date + "_" + localMachineName + ".txt";
+            file = config.prop.getProperty("outfileDir") + "CHAPOUT_" + date + "_" + localMachineName + ".txt";
             text = scanOutText.getText();
 
             //get the text
@@ -171,7 +172,7 @@ public class ViewController extends ChapScan{
                 //Warning
                 System.out.println("Could not find " + id + " - Please scan again");
 
-                writeToFile(outDir + "CHAPERRORS_" + date + "_" + localMachineName + ".txt", id.toString() + "\n");
+                writeToFile(config.prop.getProperty("outfileDir") + "CHAPERRORS_" + date + "_" + localMachineName + ".txt", id.toString() + "\n");
 
                 //Clear text for next entry
                 scanOutText.setText("");
@@ -182,7 +183,7 @@ public class ViewController extends ChapScan{
         }
     }
 
-    public void initialize() {
+    public void initialize() throws FileNotFoundException {
         localMachineName = localMachineName.split("-")[0];
 
         // format the date
@@ -191,10 +192,10 @@ public class ViewController extends ChapScan{
         date = formattedDateVars[0] + formattedDateVars[1] + formattedDateVars[2];
 
         String[] paths = {
-                outDir + "CHAPIN_" + date + "_" + localMachineName + ".txt",
-                outDir + "CHAPOUT_" + date + "_" + localMachineName + ".txt",
-                outDir + "CHAPTARDY_" + date + "_" + localMachineName + ".txt",
-                outDir + "CHAPERRORS_" + date + "_" + localMachineName + ".txt"
+                config.prop.getProperty("outfileDir") + "CHAPIN_" + date + "_" + localMachineName + ".txt",
+                config.prop.getProperty("outfileDir") + "CHAPOUT_" + date + "_" + localMachineName + ".txt",
+                config.prop.getProperty("outfileDir") + "CHAPTARDY_" + date + "_" + localMachineName + ".txt",
+                config.prop.getProperty("outfileDir") + "CHAPERRORS_" + date + "_" + localMachineName + ".txt"
         };
 
         for (String path:paths) {
