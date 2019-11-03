@@ -128,6 +128,16 @@ public class ViewController extends ChapScan {
                 //Warning
                 System.out.println("Could not find " + id + " - Please scan again");
 
+                //add to scanning list
+                try {
+                    scansIn.add(0, new Scan(new Student(id.toString(), "does not exist", id.toString(), id.toString(), id.toString())));
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                }
+
+                //Update TableView Items and Refresh Table
+                scanInTable.setItems(scansIn);
+
                 writeToFile(config.prop.getProperty("outfileDir") + "CHAPERRORS_" + date + "_" + localMachineName + ".txt", id.toString() + "\n");
 
                 //Clear text for next entry
@@ -171,6 +181,16 @@ public class ViewController extends ChapScan {
             } else {
                 //Warning
                 System.out.println("Could not find " + id + " - Please scan again");
+
+                //add to scanning list
+                try {
+                    scansOut.add(0, new Scan(new Student(id.toString(), "does not exist", id.toString(), id.toString(), id.toString())));
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                }
+
+                //Update TableView Items and Refresh Table
+                scanOutTable.setItems(scansOut);
 
                 writeToFile(config.prop.getProperty("outfileDir") + "CHAPERRORS_" + date + "_" + localMachineName + ".txt", id.toString() + "\n");
 
