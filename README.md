@@ -3,8 +3,8 @@ Chapel Scanning program for NNU. This aims to replace the current Chapel Scannin
 
 ## Deploying
 To deploy this repo:
-2. Install [Git](https://gitforwindows.org/)
-4. Clone this repo ```git clone https://github.com/MacBoyPro98/ChapelScan.git --branch java```
+1. Install [Git](https://gitforwindows.org/)
+2. Clone this repo ```git clone https://github.com/MacBoyPro98/ChapelScan.git --branch java```
 
 ## Building
 
