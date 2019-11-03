@@ -12,7 +12,7 @@ class ScanTest {
     @Test
     void getFullName() throws NoSuchAlgorithmException, FileNotFoundException {
         //Create tester object
-        Scan tester = new Scan(new Student("John", "Doe", "12345", "123456", "12345.png"));
+        Scan tester = new Scan(new Student("John", "Doe", "12345", "12345.png"));
 
         assertEquals("John Doe", tester.getFullName());
     }
@@ -20,7 +20,7 @@ class ScanTest {
     @Test
     void setFullName() throws NoSuchAlgorithmException, FileNotFoundException {
         //Create tester object
-        Scan tester = new Scan(new Student("John", "Doe", "12345", "123456", "12345.png"));
+        Scan tester = new Scan(new Student("John", "Doe", "12345", "12345.png"));
 
         tester.setFullName("Josh Doe");
 
@@ -30,7 +30,7 @@ class ScanTest {
     @Test
     void getCardID() throws NoSuchAlgorithmException, FileNotFoundException {
         //Create tester object
-        Scan tester = new Scan(new Student("John", "Doe", "12345", "123456", "12345.png"));
+        Scan tester = new Scan(new Student("John", "Doe", "12345", "12345.png"));
 
         assertEquals("12345", tester.getCardID());
     }
@@ -38,7 +38,7 @@ class ScanTest {
     @Test
     void setCardID() throws NoSuchAlgorithmException, FileNotFoundException {
         //Create tester object
-        Scan tester = new Scan(new Student("John", "Doe", "12345", "123456", "12345.png"));
+        Scan tester = new Scan(new Student("John", "Doe", "12345", "12345.png"));
 
         tester.setCardID("12346");
 

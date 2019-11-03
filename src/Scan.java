@@ -10,7 +10,7 @@ public class Scan extends ChapScan {
     private SimpleStringProperty cardID;
     private ImageView photo;
 
-    PropertyFile config = new PropertyFile();
+    private PropertyFile config = new PropertyFile();
 
     Scan(Student stu) throws FileNotFoundException {
         this.fullName = new SimpleStringProperty(stu.getFullName());

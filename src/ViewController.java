@@ -59,7 +59,7 @@ public class ViewController extends ChapScan {
                 String[] data = csvReader.readLine().split(",");
 
                 // Create new student object
-                Student stu = new Student(data[0], data[1], data[2], data[3], data[2] + ".png");
+                Student stu = new Student(data[0], data[1], data[2], data[2] + ".png");
 
                 //Add student at cardID index
                 students.put(Integer.parseInt(data[2]), stu);
@@ -130,7 +130,7 @@ public class ViewController extends ChapScan {
 
                 //add to scanning list
                 try {
-                    scansIn.add(0, new Scan(new Student(id.toString(), "does not exist", id.toString(), id.toString(), id.toString())));
+                    scansIn.add(0, new Scan(new Student(id.toString(), "does not exist", id.toString(), id.toString())));
                 } catch (NoSuchAlgorithmException e) {
                     e.printStackTrace();
                 }
@@ -184,7 +184,7 @@ public class ViewController extends ChapScan {
 
                 //add to scanning list
                 try {
-                    scansOut.add(0, new Scan(new Student(id.toString(), "does not exist", id.toString(), id.toString(), id.toString())));
+                    scansOut.add(0, new Scan(new Student(id.toString(), "does not exist", id.toString(), id.toString())));
                 } catch (NoSuchAlgorithmException e) {
                     e.printStackTrace();
                 }
