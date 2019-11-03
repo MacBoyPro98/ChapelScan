@@ -184,6 +184,12 @@ public class ViewController extends ChapScan {
     }
 
     public void initialize() throws FileNotFoundException {
+        File dir = new File(config.prop.getProperty("outfileDir"));
+
+        if (! dir.exists()) {
+            dir.mkdir();
+        }
+
         localMachineName = localMachineName.split("-")[0];
 
         // format the date
