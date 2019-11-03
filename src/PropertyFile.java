@@ -22,9 +22,10 @@ class PropertyFile {
         try {
             prop.load(ip);
 
-            System.out.println("Outfile Dir: " + prop.getProperty("outfileDir"));
-            System.out.println("Image Dir: " + prop.getProperty("imageDir"));
-            System.out.println("CSV Location: " + prop.getProperty("csvLocation"));
+            /* for debug */
+//            System.out.println("Outfile Dir: " + prop.getProperty("outfileDir"));
+//            System.out.println("Image Dir: " + prop.getProperty("imageDir"));
+//            System.out.println("CSV Location: " + prop.getProperty("csvLocation"));
         } catch (IOException e) {
             e.printStackTrace();
         }

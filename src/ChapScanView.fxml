@@ -41,13 +41,6 @@
                </content>
                 </Tab>
             </tabs>
-         <contextMenu>
-            <ContextMenu>
-              <items>
-                <MenuItem mnemonicParsing="false" text="Configuration" />
-              </items>
-            </ContextMenu>
-         </contextMenu>
         </TabPane>
     </children>
 </AnchorPane>
