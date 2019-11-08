@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 
+import javax.swing.*;
 import java.io.*;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
@@ -22,6 +23,7 @@ import java.time.LocalDate;
 public class ViewController extends ChapScan {
     @FXML private Button scanInButton;
     @FXML private Button scanOutButton;
+    @FXML private ToggleButton lateToggleButton;
     @FXML private TextField scanInText;
     @FXML private TextField scanOutText;
 
@@ -30,6 +32,7 @@ public class ViewController extends ChapScan {
     @FXML private TableView<Scan> scanOutTable;
 
     private PropertyFile config = new PropertyFile();
+    private boolean isLate = false;
 
     //List of users
     private ObservableList<Scan> scansIn = FXCollections.observableArrayList();
@@ -85,6 +88,11 @@ public class ViewController extends ChapScan {
         }
     }
 
+    public void toggleLate(ActionEvent event) {
+        //Toggle Late
+        isLate = !isLate;
+    }
+
     public void scanButtonPressed(ActionEvent event) throws IOException {
         String file = "";
         String text = "";
@@ -104,7 +112,12 @@ public class ViewController extends ChapScan {
                 if (!scansIn.contains(newScan)) {
                     //add to scanning list
                     scansIn.add(0, newScan);
-                    writeToFile(file, id.toString());
+                    if (isLate) {
+                        file = config.prop.getProperty("outfileDir") + "CHAPTARDY_" + date + "_" + localMachineName + ".txt";
+                        writeToFile(file, id.toString());
+                    } else {
+                        writeToFile(file, id.toString());
+                    }
 
                     //Update TableView Items
                     scanInTable.setItems(scansIn);
