@@ -13,7 +13,7 @@ public class Student extends ChapScan {
     private SimpleStringProperty cardID;
     private SimpleStringProperty photoPath;
 
-    PropertyFile config = new PropertyFile();
+    private PropertyFile config = new PropertyFile();
 
     Student(String fName, String lName, String cardID, String photoPath) throws NoSuchAlgorithmException, FileNotFoundException {
         this.fName = new SimpleStringProperty(Arrays.toString(hash256(fName, "salt")));
@@ -21,7 +21,8 @@ public class Student extends ChapScan {
         this.fullName = new SimpleStringProperty(fName + " " + lName);
         //TODO: Encrypt card ID
         this.cardID = new SimpleStringProperty(Arrays.toString(hash256(cardID, "salt")));
-        this.photoPath = new SimpleStringProperty(Arrays.toString(hash256(photoPath, "salt")));
+//        this.photoPath = new SimpleStringProperty(Arrays.toString(hash256(photoPath, "salt")));
+        this.photoPath = new SimpleStringProperty(photoPath);
     }
 
     //METHODS

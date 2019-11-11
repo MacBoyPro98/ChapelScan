@@ -59,10 +59,11 @@ public class ViewController extends ChapScan {
             BufferedReader csvReader = new BufferedReader(new FileReader(config.prop.getProperty("csvLocation")));
 
             while (csvReader.ready()) {
+//                String[] data = csvReader.readLine().split(",");
                 String[] data = csvReader.readLine().split(",");
 
                 // Create new student object
-                Student stu = new Student(data[0], data[1], data[2], data[2] + ".png");
+                Student stu = new Student(data[0], data[1], data[2], data[3]);
 
                 //Add student at cardID index
                 students.put(Integer.parseInt(data[2]), stu);
