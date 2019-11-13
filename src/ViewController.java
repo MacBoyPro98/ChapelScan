@@ -97,13 +97,23 @@ public class ViewController extends ChapScan {
     public void scanButtonPressed(ActionEvent event) throws IOException {
         String file = "";
         String text = "";
+        Integer id;
         
         if (event.getSource() == scanInButton || event.getSource() == scanInText) {
             file = config.prop.getProperty("outfileDir") + "CHAPIN_" + date + "_" + localMachineName + ".txt";
             text = scanInText.getText();
 
             //get the text
-            Integer id = Integer.parseInt(text);
+            try {
+                id = Integer.parseInt(text);
+            } catch (java.lang.NumberFormatException ex) {
+                System.out.println(ex.toString());
+
+                //Clear text for next entry
+                scanInText.setText("");
+
+                return;
+            }
 
             //check if student exists with card id
             if (students.containsKey(id)) {
@@ -162,7 +172,16 @@ public class ViewController extends ChapScan {
             text = scanOutText.getText();
 
             //get the text
-            Integer id = Integer.parseInt(text);
+            try {
+                id = Integer.parseInt(text);
+            } catch (java.lang.NumberFormatException ex) {
+                System.out.println(ex.toString());
+
+                //Clear text for next entry
+                scanInText.setText("");
+
+                return;
+            }
 
             //check if student exists with card id
             if (students.containsKey(id)) {
