@@ -20,6 +20,12 @@ public class ChapScan extends Application {
         primaryStage.show();
     }
 
+    @Override
+    public void stop() {
+        //TODO: Add SFTP loading of the .csv file
+        System.out.println("I do this when I close");
+    }
+
     public static void main(String[] args) {
         launch(args);
     }
