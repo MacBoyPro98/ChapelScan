@@ -6,3 +6,4 @@
 /extra/*.csv
 *.txt
 /resources/images/
+/resources/config.properties
