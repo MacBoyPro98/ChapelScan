@@ -19,6 +19,7 @@ import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class ViewController extends ChapScan {
     @FXML private Button scanInButton;
@@ -41,7 +42,7 @@ public class ViewController extends ChapScan {
     private ObservableMap<Integer, Student> students = FXCollections.observableHashMap();
 
     // Variables for file creation
-    private String date = LocalDate.now().toString();
+    private String date = LocalDateTime.now().toString();
     private String localMachineName = java.net.InetAddress.getLocalHost().getHostName();
 
     public ViewController() throws UnknownHostException, FileNotFoundException {
@@ -92,6 +93,13 @@ public class ViewController extends ChapScan {
     public void toggleLate(ActionEvent event) {
         //Toggle Late
         isLate = !isLate;
+
+        System.out.print("Late Scanning has ");
+        if (isLate) {
+            System.out.println("begun");
+        } else {
+            System.out.println("ended");
+        }
     }
 
     public void scanButtonPressed(ActionEvent event) throws IOException {
@@ -124,8 +132,7 @@ public class ViewController extends ChapScan {
                     //add to scanning list
                     scansIn.add(0, newScan);
                     if (isLate) {
-                        file = config.prop.getProperty("outfileDir") + "CHAPTARDY_" + date + "_" + localMachineName + ".txt";
-                        writeToFile(file, id.toString());
+                        writeToFile(config.prop.getProperty("outfileDir") + "CHAPTARDY_" + date + "_" + localMachineName + ".txt", id.toString());
                     } else {
                         writeToFile(file, id.toString());
                     }
@@ -163,6 +170,7 @@ public class ViewController extends ChapScan {
                 scanInTable.setItems(scansIn);
 
                 writeToFile(config.prop.getProperty("outfileDir") + "CHAPERRORS_" + date + "_" + localMachineName + ".txt", id.toString() + "\n");
+                writeToFile(config.prop.getProperty("outfileDir") + "CHAPIN_" + date + "_" + localMachineName + ".txt", id.toString());
 
                 //Clear text for next entry
                 scanInText.setText("");
@@ -178,7 +186,7 @@ public class ViewController extends ChapScan {
                 System.out.println(ex.toString());
 
                 //Clear text for next entry
-                scanInText.setText("");
+                scanOutText.setText("");
 
                 return;
             }
@@ -226,6 +234,7 @@ public class ViewController extends ChapScan {
                 scanOutTable.setItems(scansOut);
 
                 writeToFile(config.prop.getProperty("outfileDir") + "CHAPERRORS_" + date + "_" + localMachineName + ".txt", id.toString() + "\n");
+                writeToFile(config.prop.getProperty("outfileDir") + "CHAPOUT_" + date + "_" + localMachineName + ".txt", id.toString());
 
                 //Clear text for next entry
                 scanOutText.setText("");
@@ -245,10 +254,14 @@ public class ViewController extends ChapScan {
 
         localMachineName = localMachineName.split("-")[0];
 
-        // format the date
+        /* format the date
+        *   11/18/19 - Add Timestamp down to the minute
+        */
+        date = date.replace('T', '-');
+        date = date.replace(':', '-');
         String[] formattedDateVars = date.split("-");
         formattedDateVars[0] = formattedDateVars[0].substring(2);
-        date = formattedDateVars[0] + formattedDateVars[1] + formattedDateVars[2];
+        date = formattedDateVars[0] + formattedDateVars[1] + formattedDateVars[2] + formattedDateVars[3] + formattedDateVars[4];
 
         String[] paths = {
                 config.prop.getProperty("outfileDir") + "CHAPIN_" + date + "_" + localMachineName + ".txt",
