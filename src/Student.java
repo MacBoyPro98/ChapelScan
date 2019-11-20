@@ -1,5 +1,4 @@
 import javafx.beans.property.SimpleStringProperty;
-
 import java.io.FileNotFoundException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;

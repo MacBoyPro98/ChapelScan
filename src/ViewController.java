@@ -54,8 +54,6 @@ public class ViewController extends ChapScan {
     }
 
     private void populateStudents(ObservableMap<Integer, Student> students) {
-        //TODO: Update students list via scp/sftp
-
         try {
             BufferedReader csvReader = new BufferedReader(new FileReader(config.prop.getProperty("csvLocation")));
 
@@ -245,7 +243,15 @@ public class ViewController extends ChapScan {
         }
     }
 
-    public void initialize() throws FileNotFoundException {
+    public void initialize() throws FileNotFoundException, InterruptedException {
+        //Decrypt .csv file
+        try {
+            CryptoUtils.decrypt("7731632146376647", new File(config.prop.getProperty("csvLocation")), new File(config.prop.getProperty("csvLocation")));
+        } catch (CryptoException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+
         File dir = new File(config.prop.getProperty("outfileDir"));
 
         if (! dir.exists()) {
@@ -263,24 +269,16 @@ public class ViewController extends ChapScan {
         formattedDateVars[0] = formattedDateVars[0].substring(2);
         date = formattedDateVars[0] + formattedDateVars[1] + formattedDateVars[2] + formattedDateVars[3] + formattedDateVars[4];
 
-        String[] paths = {
-                config.prop.getProperty("outfileDir") + "CHAPIN_" + date + "_" + localMachineName + ".txt",
-                config.prop.getProperty("outfileDir") + "CHAPOUT_" + date + "_" + localMachineName + ".txt",
-                config.prop.getProperty("outfileDir") + "CHAPTARDY_" + date + "_" + localMachineName + ".txt",
-                config.prop.getProperty("outfileDir") + "CHAPERRORS_" + date + "_" + localMachineName + ".txt"
-        };
-
-        for (String path:paths) {
-            try {
-                Files.deleteIfExists(Paths.get(path));
-                System.out.println(path + " deleted");
-            } catch (IOException ex) {
-                System.out.println("path doesnt exist");
-            }
-        }
-
         //Open and read the students file
         populateStudents(students);
+
+        //Encrypt .csv file
+        try {
+            CryptoUtils.encrypt("7731632146376647", new File(config.prop.getProperty("csvLocation")), new File(config.prop.getProperty("csvLocation")));
+        } catch (CryptoException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
 
         //Setup Scan-In table
         TableColumn scanInFullName = new TableColumn<String, Scan>("Name");
