@@ -48,7 +48,7 @@ public class ViewController extends ChapScan {
     public ViewController() throws UnknownHostException, FileNotFoundException {
     }
 
-    private byte[] hashedValue(String val, String salt) throws NoSuchAlgorithmException{
+    static byte[] hashedValue(String val, String salt) throws NoSuchAlgorithmException{
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         return md.digest((val + salt).getBytes(StandardCharsets.UTF_8));
     }

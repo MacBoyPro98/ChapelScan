@@ -10,26 +10,26 @@ import javax.crypto.spec.SecretKeySpec;
  * @author www.codejava.net
  *
  */
-public class CryptoUtils {
+class CryptoUtils {
     private static final String ALGORITHM = "AES";
     private static final String TRANSFORMATION = "AES";
 
     // Function for encrypting a file
     // Expects 16bit key value
-    public static void encrypt(String key, File inputFile, File outputFile)
+    static void encrypt(String key, File inputFile, File outputFile)
             throws CryptoException {
         doCrypto(Cipher.ENCRYPT_MODE, key, inputFile, outputFile);
     }
 
     // Function for decrypting a file
     // Expects 16bit key value
-    public static void decrypt(String key, File inputFile, File outputFile)
+    static void decrypt(String key, File inputFile, File outputFile)
             throws CryptoException {
         doCrypto(Cipher.DECRYPT_MODE, key, inputFile, outputFile);
     }
 
     // Function for doing the encryption/decryption itself
-    static void doCrypto(int cipherMode, String key, File inputFile,
+    private static void doCrypto(int cipherMode, String key, File inputFile,
                                  File outputFile) throws CryptoException {
         try {
             Key secretKey = new SecretKeySpec(key.getBytes(), ALGORITHM);

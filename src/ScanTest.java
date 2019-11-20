@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,7 +33,7 @@ class ScanTest {
         //Create tester object
         Scan tester = new Scan(new Student("John", "Doe", "12345", "12345.png"));
 
-        assertEquals("12345", tester.getCardID());
+        assertEquals(Arrays.toString(ViewController.hashedValue("12345", "salt")), tester.getCardID());
     }
 
     @Test

@@ -2,6 +2,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,13 +19,13 @@ class StudentTest {
     void getCardID() throws NoSuchAlgorithmException, FileNotFoundException {
         Student tester = new Student("John", "Doe", "12345", "12345.png");
 
-        assertEquals("12345", tester.getCardID());
+        assertEquals(Arrays.toString(ViewController.hashedValue("12345", "salt")), tester.getCardID());
     }
 
     @Test
     void getPhotoPath() throws NoSuchAlgorithmException, FileNotFoundException {
         Student tester = new Student("John", "Doe", "12345", "12345.png");
 
-        assertEquals("resources/photos/12345.png", tester.getPhotoPath());
+        assertEquals("resources/images/12345.png", tester.getPhotoPath());
     }
 }
