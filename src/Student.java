@@ -18,7 +18,6 @@ public class Student extends ChapScan {
         this.fName = new SimpleStringProperty(Arrays.toString(hash256(fName, "salt")));
         this.lName = new SimpleStringProperty(Arrays.toString(hash256(lName, "salt")));
         this.fullName = new SimpleStringProperty(fName + " " + lName);
-        //TODO: Encrypt card ID
         this.cardID = new SimpleStringProperty(Arrays.toString(hash256(cardID, "salt")));
 //        this.photoPath = new SimpleStringProperty(Arrays.toString(hash256(photoPath, "salt")));
         this.photoPath = new SimpleStringProperty(photoPath);
@@ -39,7 +38,7 @@ public class Student extends ChapScan {
     }
 
     String getPhotoPath() {
-        return config.prop.getProperty("imageDir") + this.photoPath.get();
+        return config.prop.getProperty("imageDir") + this.photoPath.get() + ".png";
     }
 
     protected void printStudentInfo() {
