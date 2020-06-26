@@ -1,5 +1,7 @@
-# ChapelScan (Java)
+# ChapelScan (Python)
 Chapel Scanning program for NNU. This aims to replace the current Chapel Scanning software and provide an interface in which any device with a USB drive (to use the RFID scanner) can load and run the program.
+
+This version is created using Python3 and TKinter for the GUI.
 
 ## Building/Deploying
 Instructions for building are included in [this](https://docs.google.com/document/d/1e1MBpoyHT129DzA-IYdNxt4THsM4e3vE2gxEa_QA3Z8/edit?usp=sharing) document.
